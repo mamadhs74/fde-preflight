@@ -1,0 +1,41 @@
+[meta]
+name = "Acme Corp: production go-live preflight"
+
+[[check]]
+type = "env"
+name = "Credentials present"
+vars = ["ACME_API_KEY"]
+
+[[check]]
+type = "dns"
+name = "API hostname resolves"
+host = "example.com"
+
+[[check]]
+type = "tcp"
+name = "HTTPS port reachable"
+host = "example.com"
+port = 443
+
+[[check]]
+type = "tls"
+name = "Certificate healthy"
+host = "example.com"
+warn_days = 30
+min_days = 7
+
+[[check]]
+type = "http"
+name = "Health endpoint"
+url = "https://example.com/"
+expect_status = 200
+max_latency_ms = 1500
+contains = "Example Domain"
+headers = { Authorization = "Bearer ${ACME_API_KEY}" }
+
+[[check]]
+type = "json"
+name = "Sample order payload shape"
+file = "examples/sample_order.json"
+required = ["id", "customer.email"]
+types = { id = "integer", "customer.email" = "string", items = "array" }

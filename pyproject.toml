@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fde-preflight"
+version = "0.1.0"
+description = "Preflight checks for forward-deployed engineers: verify a customer environment is ready before go-live."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Mohammad Rahim Hojjat Shamami" }]
+keywords = ["forward-deployed-engineering", "deployment", "preflight", "healthcheck", "cli"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Environment :: Console",
+  "Topic :: System :: Systems Administration",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[project.scripts]
+fde-preflight = "fde_preflight.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fde_preflight"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
